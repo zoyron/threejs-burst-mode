@@ -1,4 +1,4 @@
-improt * as THREE from 'three';
+import * as THREE from 'three';
 
 // making a canvas
 const canvas = document.querySelector('canvas.webgl'); // here we made an empty canvas
