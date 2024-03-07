@@ -26,6 +26,15 @@ cubeMesh.position.set(1.4, 0.6, 1);
 // in the code, and let's say you're building a landscape, you can just decide the units would ke in Kilometers. The catch here is to
 // stick to it. So if you decided that units are in meters, and you need to use somehing in 1Km, then put value as 1000 because you have 
 // stick to the unit you're decided for yourself in your mind
+
+// rotation: this is not a vector3, this is an Euler. Read about it later on
+cubeMesh.rotation.x = 2;
+cubeMesh.rotation.z = 3.14159 * 0.5;
+
+
+
+
+
 cubeMesh.scale.set(2, 0.5, 0.5);
 const axes = new THREE.AxesHelper(2);
 // since axes helper is also an object we must add it to the scene
