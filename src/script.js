@@ -9,7 +9,7 @@ const scene = new THREE.Scene();
 
 // an object consists of geometry or the outline or shape of something that we want to render, and a material that we would cover it with
 // let's first define the geomerty of that object
-const redCubeGeometry = new THREE.BoxGeometry(1,1,1,1,1,1);
+const redCubeGeometry = new THREE.BoxGeometry(1,1,1);
 
 // now that we have created the geometry, let's create the material with we want to cover it with
 const meshMaterial = new THREE.MeshBasicMaterial({color:'red'});
@@ -30,5 +30,13 @@ const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);
 // we must move either of the thing to see out object, so let's move the camera
 camera.position.z = 3;
 scene.add(camera); // added the camera to the scene
+
+// renderer
+const renderer = new THREE.WebGLRenderer({
+  canvas: canvas
+});
+
+renderer.setSize(sizes.width, sizes.height);
+renderer.render(scene, camera);
 
 
