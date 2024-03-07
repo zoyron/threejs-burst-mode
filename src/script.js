@@ -31,7 +31,8 @@ cubeMesh.position.set(1.4, 0.6, 1);
 cubeMesh.rotation.x = 2;
 cubeMesh.rotation.z = 3.14159 * 0.5;
 
-
+// and there's no need to do translation in any particular order, it doesn't has to be position before rotation or rotation before positio
+// it can be any order and it won't matter and would give you the same result
 
 
 
@@ -56,6 +57,7 @@ camera.position.z = 3;
 camera.position.x = 1;
 camera.position.y = 1;
 scene.add(camera); // added the camera to the scene
+camera.lookAt(cubeMesh.position); // the target of the lookAt function should be a Vector3 only
 
 // renderer
 const renderer = new THREE.WebGLRenderer({
