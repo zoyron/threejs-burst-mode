@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 
 // cursor - getting the co-ordinates of the mouse
 
@@ -9,7 +10,7 @@ const cursor = {
 window.addEventListener('mousemove', (event) => {
   cursor.x = event.clientX / sizes.width - 0.5; 
  // (event.clientX/sizes.width) this value would range from 0-1, so by subtracting 0.5 from it, we are changing the range to [-0.5, 0.5]
- cursor.y = event.clientY / sizes.height - 0.5;
+  cursor.y = event.clientY / sizes.height - 0.5;
 });
 
 
@@ -45,6 +46,8 @@ camera.position.z = 3;
 camera.lookAt(mesh.position);
 scene.add(camera);
 
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
 // Renderer
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas
@@ -54,13 +57,19 @@ renderer.setSize(sizes.width, sizes.height);
 // Animate
 const clock = new THREE.Clock();
 
-const tick = () =>
-{
+const tick = () =>{
     const elapsedTime = clock.getElapsedTime();
 
     // Update objects
-   // mesh.rotation.y = elapsedTime;
-
+    //mesh.rotation.y = elapsedTime;
+    
+    // update camera using mouse
+    //camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 3;
+    //camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 3;
+    //camera.position.y = cursor.y * 5;
+    //camera.lookAt(mesh.position);
+  // update controls
+    controls.update();
     // Render
     renderer.render(scene, camera);
 
