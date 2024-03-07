@@ -33,7 +33,8 @@ renderer.render(scene, camera)
 
 // Animations
 const tick = () =>{
-  mesh.rotation.y += 0.01;
+  camera.rotation.y += 0.01;
+  camera.lookAt(mesh.position);
   renderer.render(scene, camera);
   window.requestAnimationFrame(tick);
 }
