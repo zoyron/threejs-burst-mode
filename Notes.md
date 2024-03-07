@@ -7,4 +7,12 @@
 4. And a renderer
 
 
-- Unlike scale and position, rotation is not a Vector3. Rotation is an Euler
+- Unlike scale and position, rotation is not a Vector3. Rotation is an Eule
+
+## <span style="color:magenta">Cameras</span>
+
+1. **Camera**: This is an abstract base class. This class should always be inherited when you build a new camera, i.e. when you use classes like PerspectiveCamera or any other class, they already inherit the Camera class, so you're not using the base Camera class directly(which is a good thing and is instructed in the documents like this only).
+
+2. PerspectiveCamera(fov, aspect ration, near, far);
+    - fov is field of view, near and far are the range points, anything before near point and anything after the far point won't get displayed
+    - Don't put extreme values in near and far. Values like 0.00001 for near, and 999999 for far could cause some glitches. Values like 0.1 for near and 100 or 200 for far would work fine. And these values are not a hard and fast rule, you can change accordingly.
