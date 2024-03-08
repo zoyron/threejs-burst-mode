@@ -1,5 +1,12 @@
 import * as THREE from 'three'
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js'
+import GUI from 'lil-gui'
+
+/*
+ * Debug GUI
+ */
+
+const gui = new GUI();
 
 /**
  * Base
@@ -13,16 +20,25 @@ const scene = new THREE.Scene()
 /**
  * Object
  */
-const geometry = new THREE.BoxGeometry(1, 1, 1,2,2,2);
+const geometry = new THREE.BoxGeometry(1, 1, 1,3,3,3);
 const material = new THREE.MeshBasicMaterial({
-  color: 'cyan',
-  wireframe: true,
+  color: '#348383',
+  //wireframe: true,
 })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
+// gui.add(mesh.position, 'y',-3,3,0.001);
+// another way of writing the above gui method is as follows
+gui.add(mesh.position, 'y').min(-3).max(3).step(0.001).name('elevation');
+// we can only pass objects as the 1st parameter for the gui.add() method
+gui.add(mesh, 'visible');
+gui.add(material, 'wireframe');
+gui.addColor(material, 'color');
+
+  
 /**
- * Sizes
+ * tizes
  */
 const sizes = {
   width: window.innerWidth,
@@ -65,26 +81,26 @@ window.addEventListener('resize', () => {
 /*
  * Fullscreen
 */
-window.addEventListener('dblclick', () => {
-  // this returns true if we're in fullscreen
-  const fullScreenEvent = document.fullscreenElement || document.webkitFullscreenEement; 
-  // above fullscreenelement is for all modern browsers and the webkit one is for safari to check if we're in fullscreen or not
-  if(!fullScreenEvent){
-    // if we're not in fullscreen we're checking whether the fullscreen has been requested or not
-    if(canvas.requestFullscreen) // checking for modern browsers
-      canvas.requestFullscreen();
-    else if(canvas.webkitRequestFullscreen) // checking for safari
-      canvas.webkitRequestFullscreen();
-  }
-
-  else {
-    // if we're in fullscreen now we are checking that whether user has requested to exit it
-    if(document.exitFullscreen)
-      document.exitFullscreen() ;
-    else if(document.webkitExitFullscreen)
-      document.webkitExitFullscreen();
-  }
-}) 
+//window.addEventListener('dblclick', () => {
+//  // this returns true if we're in fullscreen
+//  const fullScreenEvent = document.fullscreenElement || document.webkitFullscreenEement; 
+//  // above fullscreenelement is for all modern browsers and the webkit one is for safari to check if we're in fullscreen or not
+//  if(!fullScreenEvent){
+//    // if we're not in fullscreen we're checking whether the fullscreen has been requested or not
+//    if(canvas.requestFullscreen) // checking for modern browsers
+//      canvas.requestFullscreen();
+//    else if(canvas.webkitRequestFullscreen) // checking for safari
+//      canvas.webkitRequestFullscreen();
+//  }
+//
+//  else {
+//    // if we're in fullscreen now we are checking that whether user has requested to exit it
+//    if(document.exitFullscreen)
+//      document.exitFullscreen() ;
+//    else if(document.webkitExitFullscreen)
+//      document.webkitExitFullscreen();
+//  }
+//}) 
 
 
  /*

@@ -16,3 +16,5 @@
 2. PerspectiveCamera(fov, aspect ration, near, far);
     - fov is field of view, near and far are the range points, anything before near point and anything after the far point won't get displayed
     - Don't put extreme values in near and far. Values like 0.00001 for near, and 999999 for far could cause some glitches. Values like 0.1 for near and 100 or 200 for far would work fine. And these values are not a hard and fast rule, you can change accordingly.
+
+3. Color property is not a string, a bollean, or a number. It's an instance of the Three.js Color class, so in gui we need to use addColor(...) instead of add(...).
