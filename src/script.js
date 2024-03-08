@@ -6,7 +6,12 @@ import GUI from 'lil-gui'
  * Debug GUI
  */
 
-const gui = new GUI();
+const gui = new GUI({
+  width: 300,
+  title: 'Nice debug UI',
+  closeFolders: false,
+});
+gui.close();
 
 /**
  * Base
