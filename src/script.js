@@ -57,7 +57,33 @@ window.addEventListener('resize', () => {
   renderer.setSize(sizes.width, sizes.height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 })
- 
+
+
+/*
+ * Fullscreen
+*/
+window.addEventListener('dblclick', () => {
+  // this returns true if we're in fullscreen
+  const fullScreenEvent = document.fullscreenElement || document.webkitFullscreenEement; 
+  // above fullscreenelement is for all modern browsers and the webkit one is for safari to check if we're in fullscreen or not
+  if(!fullScreenEvent){
+    // if we're not in fullscreen we're checking whether the fullscreen has been requested or not
+    if(canvas.requestFullscreen) // checking for modern browsers
+      canvas.requestFullscreen();
+    else if(canvas.webkitRequestFullscreen) // checking for safari
+      canvas.webkitRequestFullscreen();
+  }
+
+  else {
+    // if we're in fullscreen now we are checking that whether user has requested to exit it
+    if(document.exitFullscreen)
+      document.exitFullscreen() ;
+    else if(document.webkitExitFullscreen)
+      document.webkitExitFullscreen();
+  }
+}) 
+
+
  /*
  * Renderer
  */
