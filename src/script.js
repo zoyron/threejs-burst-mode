@@ -38,7 +38,27 @@ scene.add(camera)
 const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true
 
-/**
+
+/*
+ * Resizing the window: after resizing the window we must update the sizes object, updat the camera's aspect ratio, the update matrix
+ * and also render the scene again. and after resizing the window since the pixel ratio changes update that as well
+* we do that by listening to the resize event of the window
+*/
+window.addEventListener('resize', () => {
+  // updating the sizes object
+  sizes.width = window.innerWidth;
+  sizes.height = window.innerHeight;
+
+  // updating the camera's aspect ratio
+  camera.aspect = sizes.width /  sizes.height;
+  camera.updateProjectionMatrix();
+
+  // update the renderer
+  renderer.setSize(sizes.width, sizes.height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+})
+ 
+ /*
  * Renderer
  */
 const renderer = new THREE.WebGLRenderer({
