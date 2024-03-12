@@ -2,16 +2,23 @@ import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
 import imageSource from "../static/textures/door/color.jpg"
 
-
 /*
  * Textures
-*/
+ */
 const image = new Image();
-// when the image is being loaded, the function inside the object "image" will be triggered
-image.onload = () =>{
-  console.log('image loaded');
-}
 
+// we can't use the image directly, first we have to convert it to a texture. It(Texture) is a class in threejs that converts an image
+// to something more GPU friendly(i.e. a texture), also, enabling textures would give us move features
+
+const texture = new THREE.Texture(image);
+texture.colorSpace = THREE.SRGBColorSpace;
+// we use the texture on the material, so instead of a color we can also give a texture to cover the geometry with
+
+// when the image is being loaded, the function inside the object "image" will be triggered
+image.onload = () => {
+  texture.needsUpdate = true;
+};
+image.src = imageSource;
 
 /**
  * Base
@@ -26,10 +33,7 @@ const scene = new THREE.Scene();
  * Object
  */
 const geometry = new THREE.BoxGeometry(0.45, 0.45, 0.45, 3, 3, 3);
-const material = new THREE.MeshBasicMaterial({
-  color: "cyan",
-  wireframe: true,
-});
+const material = new THREE.MeshBasicMaterial({ map: texture });
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
