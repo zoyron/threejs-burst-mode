@@ -1,5 +1,16 @@
 import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
+import GUI from "lil-gui";
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
+
+
+/*
+ * Debug GUI
+*/
+const gui = new GUI();
+gui.close();
+
+
 /**
  * Base
  */
@@ -19,6 +30,18 @@ pointLight.position.x = 2
 pointLight.position.y = 3
 pointLight.position.z = 4
 scene.add(pointLight)
+
+
+/*
+ * RGBELoader
+ */
+const rgbeLoader = new RGBELoader();
+rgbeLoader.load('./textures/environmentMap/2k.hdr', (environmentMap) => {
+  environmentMap.mapping = THREE.EquirectangularReflectionMapping;
+  scene.background = environmentMap;
+  scene.environment = environmentMap;
+});
+
 
 /*
  * Textures
@@ -64,27 +87,29 @@ matcapTexture.colorSpace = THREE.SRGBColorSpace;
 //material.matcap = matcapTexture;
 
 const material = new THREE.MeshStandardMaterial();
-material.wireframe = true;
-material.metalness = 0.45;
-material.roughness = 0.9;
+//material.map = doorColorTexture;
+material.metalness = 0.7;
+material.roughness = 0.2;
 material.side = THREE.DoubleSide;
+gui.add(material, 'metalness').min(0).max(1).step(0.01);
+gui.add(material, 'roughness').min(0).max(1).step(0.01);
 
 // geometry
-const torusGeometry = new THREE.TorusGeometry(0.25, 0.075, 16, 32);
-const planeGeometry = new THREE.PlaneGeometry(0.75, 0.75);
-const sphereGeometry = new THREE.SphereGeometry(0.25, 16, 16);
+const torusGeometry = new THREE.TorusGeometry(0.175, 0.075, 32, 32);
+const boxGeometry = new THREE.BoxGeometry(0.3, 0.3, 0.3);
+const sphereGeometry = new THREE.SphereGeometry(0.35, 16, 16);
 
 // meshes/objects
 const torus = new THREE.Mesh(torusGeometry, material);
 const sphere = new THREE.Mesh(sphereGeometry, material);
-const plane = new THREE.Mesh(planeGeometry, material);
+const box = new THREE.Mesh(boxGeometry, material);
 
 // add(...) method supports adding of multiple meshes at once
-scene.add(torus, plane, sphere);
+scene.add(torus, box, sphere);
 
 // transforming the geometries to different co-ordinates
 torus.position.y = 1;
-sphere.position.y = -1;
+sphere.position.y = -1.25;
 
 
 
@@ -136,7 +161,8 @@ const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
 });
 renderer.setSize(sizes.width, sizes.height);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+//renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setPixelRatio(2);
 /**
  * Animate
  */
@@ -147,10 +173,10 @@ const tick = () => {
 
   // update/rotate objects
   torus.rotation.y = 0.25 * elapsedTime;
-  plane.rotation.y = 0.25 * elapsedTime;
+  box.rotation.y = 0.25 * elapsedTime;
   sphere.rotation.y = 0.25 * elapsedTime;
   torus.rotation.x = -0.15 * elapsedTime;
-  plane.rotation.x = -0.15 * elapsedTime;
+  box.rotation.x = -0.15 * elapsedTime;
   sphere.rotation.x = -0.15 * elapsedTime;
   // Update controls
   controls.update();
