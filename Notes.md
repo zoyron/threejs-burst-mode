@@ -30,4 +30,16 @@
 
 
 ## <span style="color:magenta">Thigs to keep in mind about GPUs</span>
-1. 
+* Each pixel of the texture will have to be stored on the GPU regardless of the image's weight, and since GPUs have storage limitations we have to be careful while sending textures and images to GPU.
+* Mipmapping increases teh the number of pixels to store on the GPU to try to reduce the size of your images as much as possible.
+
+* **Mipmaping** : The mipmaping will produce a half smaller version of the texture repeatedly until we have 1x1 texture. Because of that widht and height of the texture/image must be a power of 2. Some examples are as follow:
+    * 512x512
+    * 1024x1024
+    * 512*2048
+
+
+
+
+
+

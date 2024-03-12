@@ -62,10 +62,10 @@ const scene = new THREE.Scene();
 /**
  * Object
  */
-const geometry = new THREE.BoxGeometry(0.45, 0.45, 0.45, 3, 3, 3);
-//const geometry = new THREE.TorusGeometry(0.5,0.17,32,50);
+//const geometry = new THREE.BoxGeometry(0.45, 0.45, 0.45, 3, 3, 3);
+const geometry = new THREE.TorusGeometry(0.5,0.17,32,50);
 //const geometry = new THREE.SphereGeometry(0.5,32,32);
-const material = new THREE.MeshBasicMaterial({ map: colorTexture });
+const material = new THREE.MeshBasicMaterial({ map: colorTexture, wireframe: !false });
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
