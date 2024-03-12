@@ -17,6 +17,17 @@
     - fov is field of view, near and far are the range points, anything before near point and anything after the far point won't get displayed
     - Don't put extreme values in near and far. Values like 0.00001 for near, and 999999 for far could cause some glitches. Values like 0.1 for near and 100 or 200 for far would work fine. And these values are not a hard and fast rule, you can change accordingly.
 
-3. Color property is not a string, a bollean, or a number. It's an instance of the Three.js Color class, so in gui we need to use addColor(...) instead of add(...).
 
-4. Textures are images that will cover the surface of the geometries
+## <span style="color:magenta">Colors and Textures</span>
+1. Color property is not a string, a bollean, or a number. It's an instance of the Three.js Color class, so in gui we need to use addColor(...) instead of add(...).
+
+2. Textures are images that will cover the surface of the geometries
+
+3. Users will have to dodwnload a lot of textures at times, so to make the right decision for your project keep the following things in mind
+    - .jpg is lossy compression but usually lighter
+    - .png is lossess compression but usually heavier
+    - you can use compression software or websites like [TinyPNG](https://tinypng.com/) or some other site
+
+
+## <span style="color:magenta">Thigs to keep in mind about GPUs</span>
+1. 

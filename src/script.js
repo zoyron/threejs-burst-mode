@@ -1,6 +1,6 @@
 import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
-import imageSource from "../static/textures/door/color.jpg"
+import imageSource from "../static/textures/minecraft.png"
 
 /*
  * Textures
@@ -36,19 +36,20 @@ loadingManager.onError = () => {
   console.log('onError');
 }
 const colorTexture = textureLoader.load(imageSource);
-const alphaTexture = textureLoader.load('../static/textures/door/alpha.jpg');
-const ambientTexture = textureLoader.load('../static/textures/door/ambientOcclusion.jpg');
 
 // one texture loader can load multiple textures
 colorTexture.colorSpace = THREE.SRGBColorSpace;
-ambientTexture.colorSpace = THREE.SRGBColorSpace;
-alphaTexture.colorSpace  = THREE.SRGBColorSpace;
 // the above three lines are working just as fine to make texture as the big ass fat arrow function we made earlier
 
 // right now we are usign just one texture and one textureLoader, but later on we will be using multiple textures, models, fonts
 // to keep a track of all that we will need a loadingManager, so we will use one like below
-
-
+//colorTexture.repeat.x = 2; // this means how many times the image should be used as a texture on the geometry in x-direction 
+//colorTexture.repeat.y = 3; // this means how many times the image should be used as a texture on the geometry in y-direction 
+//// the 'repeat' method is of the type 'Vetor2'
+////the following 2 methods bring the upper 2 methods to frutation
+//colorTexture.wrapS = THREE.MirroredRepeatWrapping; 
+//colorTexture.wrapT = THREE.MirroredRepeatWrapping;
+colorTexture.magFilter = THREE.NearestFilter;
 /**
  * Base
  */
@@ -62,6 +63,8 @@ const scene = new THREE.Scene();
  * Object
  */
 const geometry = new THREE.BoxGeometry(0.45, 0.45, 0.45, 3, 3, 3);
+//const geometry = new THREE.TorusGeometry(0.5,0.17,32,50);
+//const geometry = new THREE.SphereGeometry(0.5,32,32);
 const material = new THREE.MeshBasicMaterial({ map: colorTexture });
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
