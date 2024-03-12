@@ -16,17 +16,7 @@ const scene = new THREE.Scene();
 // loading all the textures to be later used on the mesh as materials
 const textureLoader = new THREE.TextureLoader();
 const doorColorTexture = textureLoader.load('textures/door/color.jpg');
-const doorAlphaTexture = textureLoader.load('textures/door/alpha.jpg', (texture) => {
-  console.log('loaded successfully');
-  console.log(texture);
-},
-  undefined,
-
-  (err) => {
-    console.log('error');
-    console.log(err);
-  }
-);
+const doorAlphaTexture = textureLoader.load('textures/door/alpha.jpg');
 const doorHeightTexture = textureLoader.load('textures/door/height.jpg');
 const doorNormalTexture = textureLoader.load('textures/door/normal.jpg');
 const doorMetalnessTexture = textureLoader.load('textures/door/metalness.jpg');
