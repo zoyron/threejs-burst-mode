@@ -9,6 +9,17 @@ const canvas = document.querySelector("canvas.webgl");
 // Scene
 const scene = new THREE.Scene();
 
+// LIGHTS
+
+const ambientLight = new THREE.AmbientLight(0xffffff, 1)
+scene.add(ambientLight)
+                                                         
+const pointLight = new THREE.PointLight(0xffffff, 30)
+pointLight.position.x = 2
+pointLight.position.y = 3
+pointLight.position.z = 4
+scene.add(pointLight)
+
 /*
  * Textures
 */
@@ -32,12 +43,12 @@ matcapTexture.colorSpace = THREE.SRGBColorSpace;
  Meshes, materials and objects
  */
 // material - this will be used for all
-const material = new THREE.MeshBasicMaterial();
-material.map = doorColorTexture;
-material.wireframe = true;
-material.transparent = true;
-material.opacity = 0.5;
-material.side = THREE.DoubleSide; 
+//const material = new THREE.MeshBasicMaterial();
+//material.map = doorColorTexture;
+//material.wireframe = true;
+//material.transparent = true;
+//material.opacity = 0.5;
+//material.side = THREE.DoubleSide; 
 /*
  * side method determines which side of the material to show. double side shows both but takes more power and resources, also takes longer
  */
@@ -47,10 +58,16 @@ material.side = THREE.DoubleSide;
 //material.transparent = true;
 //material.opacity = 0.5;
 //material.side = THREE.DoubleSide;
-//material.flatShading = true;
+//material.flatShading = true; // so either flatShading works or wireFrame. both cant work simultaneously
 
 //const material = new THREE.MeshMatcapMaterial();
 //material.matcap = matcapTexture;
+
+const material = new THREE.MeshStandardMaterial();
+material.wireframe = true;
+material.metalness = 0.45;
+material.roughness = 0.9;
+material.side = THREE.DoubleSide;
 
 // geometry
 const torusGeometry = new THREE.TorusGeometry(0.25, 0.075, 16, 32);
