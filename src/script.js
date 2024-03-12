@@ -33,7 +33,7 @@ scene.add(pointLight)
 
 
 /*
- * RGBELoader
+ * RGBELoader for the environment mapping
  */
 const rgbeLoader = new RGBELoader();
 rgbeLoader.load('./textures/environmentMap/2k.hdr', (environmentMap) => {
@@ -87,10 +87,15 @@ matcapTexture.colorSpace = THREE.SRGBColorSpace;
 //material.matcap = matcapTexture;
 
 const material = new THREE.MeshStandardMaterial();
-//material.map = doorColorTexture;
-material.metalness = 0.7;
-material.roughness = 0.2;
+material.map = doorColorTexture;
+material.aoMap = doorAbientTexture;
+material.metalness = 1;
+material.roughness = 0;
 material.side = THREE.DoubleSide;
+material.metalnessMap = doorMetalnessTexture;
+material.roughnessMap = doorRoughnessTexture;
+//material.transparent = true;
+//material.opacity = 0.5;
 gui.add(material, 'metalness').min(0).max(1).step(0.01);
 gui.add(material, 'roughness').min(0).max(1).step(0.01);
 
@@ -170,14 +175,16 @@ const clock = new THREE.Clock();
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
-
+  // adding rotation to the sphere around the y axis
+  //sphere.position.x = 0.25 * Math.sin(elapsedTime) * Math.PI;
+  //sphere.position.z = 0.25 * Math.cos(elapsedTime) * Math.PI;
   // update/rotate objects
-  torus.rotation.y = 0.25 * elapsedTime;
-  box.rotation.y = 0.25 * elapsedTime;
-  sphere.rotation.y = 0.25 * elapsedTime;
-  torus.rotation.x = -0.15 * elapsedTime;
-  box.rotation.x = -0.15 * elapsedTime;
-  sphere.rotation.x = -0.15 * elapsedTime;
+  torus.rotation.y = 0.5 * elapsedTime;
+  box.rotation.y = 0.5 * elapsedTime;
+  sphere.rotation.y = 0.5 * elapsedTime;
+  torus.rotation.x = -0.5 * elapsedTime;
+  box.rotation.x = -0.5 * elapsedTime;
+  sphere.rotation.x = -0.5 * elapsedTime;
   // Update controls
   controls.update();
 
