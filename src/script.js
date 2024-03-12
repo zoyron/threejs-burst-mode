@@ -5,20 +5,49 @@ import imageSource from "../static/textures/door/color.jpg"
 /*
  * Textures
  */
-const image = new Image();
+//{{ const image = new Image();
+//
+//// we can't use the image directly, first we have to convert it to a texture. It(Texture) is a class in threejs that converts an image
+//// to something more GPU friendly(i.e. a texture), also, enabling textures would give us move features
+//
+//const texture = new THREE.Texture(image);
+//texture.colorSpace = THREE.SRGBColorSpace;
+//// we use the texture on the material, so instead of a color we can also give a texture to cover the geometry with
+//
+//// when the image is being loaded, the function inside the object "image" will be triggered
+//image.onload = () => {
+//  this.exture.needsUpdate = true;
+//};
+//image.src = imageSource; }}
 
-// we can't use the image directly, first we have to convert it to a texture. It(Texture) is a class in threejs that converts an image
-// to something more GPU friendly(i.e. a texture), also, enabling textures would give us move features
+/*the above was a long way using texture in threejs, now we will see a shorter way
+ * we did the above method to know what goes behind the scene of texture loading
+*/
+const loadingManager = new THREE.LoadingManager();
 
-const texture = new THREE.Texture(image);
-texture.colorSpace = THREE.SRGBColorSpace;
-// we use the texture on the material, so instead of a color we can also give a texture to cover the geometry with
+const textureLoader = new THREE.TextureLoader(loadingManager);
+loadingManager.onStart = () => {
+  console.log('onStart');
+}
+loadingManager.onLoad = () => {
+  console.log('onLoad');
+}
+loadingManager.onError = () => {
+  console.log('onError');
+}
+const colorTexture = textureLoader.load(imageSource);
+const alphaTexture = textureLoader.load('../static/textures/door/alpha.jpg');
+const ambientTexture = textureLoader.load('../static/textures/door/ambientOcclusion.jpg');
 
-// when the image is being loaded, the function inside the object "image" will be triggered
-image.onload = () => {
-  texture.needsUpdate = true;
-};
-image.src = imageSource;
+// one texture loader can load multiple textures
+colorTexture.colorSpace = THREE.SRGBColorSpace;
+ambientTexture.colorSpace = THREE.SRGBColorSpace;
+alphaTexture.colorSpace  = THREE.SRGBColorSpace;
+// the above three lines are working just as fine to make texture as the big ass fat arrow function we made earlier
+
+// right now we are usign just one texture and one textureLoader, but later on we will be using multiple textures, models, fonts
+// to keep a track of all that we will need a loadingManager, so we will use one like below
+
 
 /**
  * Base
@@ -33,7 +62,7 @@ const scene = new THREE.Scene();
  * Object
  */
 const geometry = new THREE.BoxGeometry(0.45, 0.45, 0.45, 3, 3, 3);
-const material = new THREE.MeshBasicMaterial({ map: texture });
+const material = new THREE.MeshBasicMaterial({ map: colorTexture });
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
