@@ -1,6 +1,5 @@
 import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
-import imgSource from '../static/textures/door/color.jpg'
 /**
  * Base
  */
@@ -16,8 +15,8 @@ const scene = new THREE.Scene();
 
 // loading all the textures to be later used on the mesh as materials
 const textureLoader = new THREE.TextureLoader();
-const doorColorTexture = textureLoader.load(imgSource);
-const doorAlphaTexture = textureLoader.load('../static/textures/door/alpha.jpg', (texture) => {
+const doorColorTexture = textureLoader.load('textures/door/color.jpg');
+const doorAlphaTexture = textureLoader.load('textures/door/alpha.jpg', (texture) => {
   console.log('loaded successfully');
   console.log(texture);
 },
@@ -28,13 +27,13 @@ const doorAlphaTexture = textureLoader.load('../static/textures/door/alpha.jpg',
     console.log(err);
   }
 );
-const doorHeightTexture = textureLoader.load('../static/textures/door/height.jpg');
-const doorNormalTexture = textureLoader.load('../static/textures/door/normal.jpg');
-const doorMetalnessTexture = textureLoader.load('../static/textures/door/metalness.jpg');
-const doorRoughnessTexture = textureLoader.load('../static/textures/door/roughness.jpg');
-const doorAbientTexture = textureLoader.load('../static/textures/door/ambientOcclusion.jpg');
-const matcapTexture = textureLoader.load('../static/textures/matcaps/1.png');
-const gradientTexture = textureLoader.load('../static/textures/gradients/3.png');
+const doorHeightTexture = textureLoader.load('textures/door/height.jpg');
+const doorNormalTexture = textureLoader.load('textures/door/normal.jpg');
+const doorMetalnessTexture = textureLoader.load('textures/door/metalness.jpg');
+const doorRoughnessTexture = textureLoader.load('textures/door/roughness.jpg');
+const doorAbientTexture = textureLoader.load('textures/door/ambientOcclusion.jpg');
+const matcapTexture = textureLoader.load('textures/matcaps/1.png');
+const gradientTexture = textureLoader.load('textures/gradients/3.png');
 
 doorColorTexture.colorSpace = THREE.SRGBColorSpace;
 matcapTexture.colorSpace = THREE.SRGBColorSpace;
@@ -43,22 +42,22 @@ matcapTexture.colorSpace = THREE.SRGBColorSpace;
  Meshes, materials and objects
  */
 // material - this will be used for all
-//const material = new THREE.MeshBasicMaterial();
-//material.map = doorColorTexture;
-//material.wireframe = true;
-//material.transparent = true;
-//material.opacity = 0.5;
-//material.side = THREE.DoubleSide; 
+const material = new THREE.MeshBasicMaterial();
+material.map = doorColorTexture;
+material.wireframe = true;
+material.transparent = true;
+material.opacity = 0.5;
+material.side = THREE.DoubleSide; 
 /*
  * side method determines which side of the material to show. double side shows both but takes more power and resources, also takes longer
  */
 
-const material = new THREE.MeshNormalMaterial();
+//const material = new THREE.MeshNormalMaterial();
 //material.wireframe = true;
-material.transparent = true;
-material.opacity = 0.5;
-material.side = THREE.DoubleSide;
-material.flatShading = true;
+//material.transparent = true;
+//material.opacity = 0.5;
+//material.side = THREE.DoubleSide;
+//material.flatShading = true;
 
 //const material = new THREE.MeshMatcapMaterial();
 //material.matcap = matcapTexture;
