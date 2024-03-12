@@ -1,6 +1,6 @@
 import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
-
+import imgSource from '../static/textures/door/color.jpg'
 /**
  * Base
  */
@@ -9,6 +9,78 @@ const canvas = document.querySelector("canvas.webgl");
 
 // Scene
 const scene = new THREE.Scene();
+
+/*
+ * Textures
+*/
+
+// loading all the textures to be later used on the mesh as materials
+const textureLoader = new THREE.TextureLoader();
+const doorColorTexture = textureLoader.load(imgSource);
+const doorAlphaTexture = textureLoader.load('../static/textures/door/alpha.jpg', (texture) => {
+  console.log('loaded successfully');
+  console.log(texture);
+},
+  undefined,
+
+  (err) => {
+    console.log('error');
+    console.log(err);
+  }
+);
+const doorHeightTexture = textureLoader.load('../static/textures/door/height.jpg');
+const doorNormalTexture = textureLoader.load('../static/textures/door/normal.jpg');
+const doorMetalnessTexture = textureLoader.load('../static/textures/door/metalness.jpg');
+const doorRoughnessTexture = textureLoader.load('../static/textures/door/roughness.jpg');
+const doorAbientTexture = textureLoader.load('../static/textures/door/ambientOcclusion.jpg');
+const matcapTexture = textureLoader.load('../static/textures/matcaps/1.png');
+const gradientTexture = textureLoader.load('../static/textures/gradients/3.png');
+
+doorColorTexture.colorSpace = THREE.SRGBColorSpace;
+matcapTexture.colorSpace = THREE.SRGBColorSpace;
+
+/*
+ Meshes, materials and objects
+ */
+// material - this will be used for all
+//const material = new THREE.MeshBasicMaterial();
+//material.map = doorColorTexture;
+//material.wireframe = true;
+//material.transparent = true;
+//material.opacity = 0.5;
+//material.side = THREE.DoubleSide; 
+/*
+ * side method determines which side of the material to show. double side shows both but takes more power and resources, also takes longer
+ */
+
+const material = new THREE.MeshNormalMaterial();
+//material.wireframe = true;
+material.transparent = true;
+material.opacity = 0.5;
+material.side = THREE.DoubleSide;
+material.flatShading = true;
+
+//const material = new THREE.MeshMatcapMaterial();
+//material.matcap = matcapTexture;
+
+// geometry
+const torusGeometry = new THREE.TorusGeometry(0.25, 0.075, 16, 32);
+const planeGeometry = new THREE.PlaneGeometry(0.75, 0.75);
+const sphereGeometry = new THREE.SphereGeometry(0.25, 16, 16);
+
+// meshes/objects
+const torus = new THREE.Mesh(torusGeometry, material);
+const sphere = new THREE.Mesh(sphereGeometry, material);
+const plane = new THREE.Mesh(planeGeometry, material);
+
+// add(...) method supports adding of multiple meshes at once
+scene.add(torus, plane, sphere);
+
+// transforming the geometries to different co-ordinates
+torus.position.y = 1;
+sphere.position.y = -1;
+
+
 
 /**
  * Sizes
@@ -59,7 +131,6 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
 /**
  * Animate
  */
@@ -68,6 +139,13 @@ const clock = new THREE.Clock();
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
 
+  // update/rotate objects
+  torus.rotation.y = 0.25 * elapsedTime;
+  plane.rotation.y = 0.25 * elapsedTime;
+  sphere.rotation.y = 0.25 * elapsedTime;
+  torus.rotation.x = -0.15 * elapsedTime;
+  plane.rotation.x = -0.15 * elapsedTime;
+  sphere.rotation.x = -0.15 * elapsedTime;
   // Update controls
   controls.update();
 
