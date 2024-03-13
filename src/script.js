@@ -71,6 +71,7 @@ fontLoader.load(
     const text = new THREE.Mesh(textGeometry, textMaterial);
     scene.add(text);
     text.position.x = -0.85;
+
     const donutGeometry = new THREE.TorusGeometry(0.25, 0.125, 16, 32);
     const donutMaterial = new THREE.MeshMatcapMaterial({matcap: oneTexture});
     //let donut = [];
@@ -92,6 +93,7 @@ fontLoader.load(
       donut[i].scale.z = scale;
       scene.add(donut[i]);
     }
+    tick();
   }
 );
 
@@ -163,7 +165,11 @@ const clock = new THREE.Clock();
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
-  //
+  for(let i = 0; i < 300 ; i++){
+    let rot = 0.5 * elapsedTime;
+    donut[i].rotation.y = Math.sin(rot);
+  }
+
   // Update controls
   controls.update();
 
@@ -174,4 +180,4 @@ const tick = () => {
   window.requestAnimationFrame(tick);
 };
 
-tick();
+//tick();
