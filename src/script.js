@@ -2,6 +2,10 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import GUI from "lil-gui";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js"
+import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js"
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
+
+
 
 /**
  * Base
@@ -20,7 +24,24 @@ const scene = new THREE.Scene();
  * Textures
  */
 const textureLoader = new THREE.TextureLoader();
-const oneTexture = textureLoader.load('./textures/matcaps/3.png' );
+const textTexture = textureLoader.load('./textures/matcaps/4.png' );
+const oneTexture = textureLoader.load('./textures/matcaps/8.png');
+textTexture.colorSpace = THREE.SRGBColorSpace;
+oneTexture.colorSpace = THREE.SRGBColorSpace;
+
+
+/*
+ * RGBELoader for the environment mapping
+ */
+const rgbeLoader = new RGBELoader();
+rgbeLoader.load('./textures/environmentMap/2k.hdr', (environmentMap) => {
+  environmentMap.mapping = THREE.EquirectangularReflectionMapping;
+  scene.background = environmentMap;
+  scene.environment = environmentMap;
+});
+
+
+
 
 /*
  * Fonts
@@ -30,8 +51,44 @@ const fontLoader = new FontLoader();
 fontLoader.load(
   './fonts/helvetiker_regular.typeface.json',
   // this function will be triggered once the font is loaded
-  () => {
-    console.log("font loaded");
+  (font) => {
+    const textGeometry = new TextGeometry('Sarlloc', {
+      font: font,
+      size: 0.5,
+      height: 0.2,
+      curveSegments: 5,
+      bevelEnabled: true,
+      bevelThickness: 0.03,
+      bevelSize: 0.02,
+      bevelOffset: 0,
+      bevelSegments: 4
+    });
+    textGeometry.computeBoundingBox();
+    console.log(textGeometry.boundingBox)
+    const textMaterial = new THREE.MeshMatcapMaterial({matcap: textTexture});
+    //textMaterial.wireframe = true;
+    const text = new THREE.Mesh(textGeometry, textMaterial);
+    scene.add(text);
+    text.position.x = -0.85;
+    const donutGeometry = new THREE.TorusGeometry(0.25, 0.125, 16, 32);
+    const donutMaterial = new THREE.MeshMatcapMaterial({matcap: oneTexture});    
+    for(let i = 0;i<300;i++){
+      // this is an unoptimized code, since we can reuse the geometry and material again and again to create new meshes we can put the
+      // follow 2 lines of code outside the loop to make out code faster, we dont have to create geometry and material again and again
+      //const donutGeometry = new THREE.TorusGeometry(0.25, 0.125, 16, 32);
+      //const donutMaterial = new THREE.MeshMatcapMaterial({matcap: oneTexture});
+      const donut = new THREE.Mesh(donutGeometry, donutMaterial);
+      donut.position.x = (Math.random() - 0.5) * 10;
+      donut.position.y = (Math.random() - 0.5) * 10;
+      donut.position.z = (Math.random() - 0.5) * 10;
+      donut.rotation.x = Math.random() * Math.PI;
+      donut.rotation.y = Math.random() * Math.PI;
+      const scale = Math.random();
+      donut.scale.x = scale;
+      donut.scale.y = scale;
+      donut.scale.z = scale;
+      scene.add(donut);
+    }
   }
 );
 
@@ -39,11 +96,12 @@ fontLoader.load(
 /**
  * Object
  */
-const sphereGeometry = new THREE.SphereGeometry(0.5, 16, 16);
-const material = new THREE.MeshBasicMaterial({ map: oneTexture });
-//material.wireframe = true;
-const sphere = new THREE.Mesh(sphereGeometry, material);
-scene.add(sphere);
+//const sphereGeometry = new THREE.SphereGeometry(0.5, 16, 16);
+//const material = new THREE.MeshBasicMaterial({ map: oneTexture });
+////material.wireframe = true;
+//const sphere = new THREE.Mesh(sphereGeometry, material);
+//sphere.position.y = -0.5;
+//scene.add(sphere);
 
 /**
  * Sizes
@@ -102,7 +160,6 @@ const clock = new THREE.Clock();
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
-  sphere.rotation.y = elapsedTime * 0.5;
 
   // Update controls
   controls.update();
