@@ -48,6 +48,7 @@ rgbeLoader.load('./textures/environmentMap/2k.hdr', (environmentMap) => {
 */
 // one fontLoader can load multiple fonts
 const fontLoader = new FontLoader();
+let donut = [];
 fontLoader.load(
   './fonts/helvetiker_regular.typeface.json',
   // this function will be triggered once the font is loaded
@@ -71,26 +72,29 @@ fontLoader.load(
     scene.add(text);
     text.position.x = -0.85;
     const donutGeometry = new THREE.TorusGeometry(0.25, 0.125, 16, 32);
-    const donutMaterial = new THREE.MeshMatcapMaterial({matcap: oneTexture});    
+    const donutMaterial = new THREE.MeshMatcapMaterial({matcap: oneTexture});
+    //let donut = [];
     for(let i = 0;i<300;i++){
       // this is an unoptimized code, since we can reuse the geometry and material again and again to create new meshes we can put the
       // follow 2 lines of code outside the loop to make out code faster, we dont have to create geometry and material again and again
       //const donutGeometry = new THREE.TorusGeometry(0.25, 0.125, 16, 32);
       //const donutMaterial = new THREE.MeshMatcapMaterial({matcap: oneTexture});
-      const donut = new THREE.Mesh(donutGeometry, donutMaterial);
-      donut.position.x = (Math.random() - 0.5) * 10;
-      donut.position.y = (Math.random() - 0.5) * 10;
-      donut.position.z = (Math.random() - 0.5) * 10;
-      donut.rotation.x = Math.random() * Math.PI;
-      donut.rotation.y = Math.random() * Math.PI;
       const scale = Math.random();
-      donut.scale.x = scale;
-      donut.scale.y = scale;
-      donut.scale.z = scale;
-      scene.add(donut);
+      donut[i] = new THREE.Mesh(donutGeometry, donutMaterial);
+      console.log(typeof(donut[i]));
+      donut[i].position.x = (Math.random() - 0.5) * 10;
+      donut[i].position.y = (Math.random() - 0.5) * 10;
+      donut[i].position.z = (Math.random() - 0.5) * 10;
+      donut[i].rotation.x = Math.random() * Math.PI;
+      donut[i].rotation.y = Math.random() * Math.PI;
+      donut[i].scale.x = scale;
+      donut[i].scale.y = scale;
+      donut[i].scale.z = scale;
+      scene.add(donut[i]);
     }
   }
 );
+
 
 
 /**
@@ -135,9 +139,8 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   100,
 );
-camera.position.x = 1;
 camera.position.y = 1;
-camera.position.z = 2;
+camera.position.z = 6;
 scene.add(camera);
 
 // Controls
@@ -160,7 +163,7 @@ const clock = new THREE.Clock();
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
-
+  //
   // Update controls
   controls.update();
 
