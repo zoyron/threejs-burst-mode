@@ -53,7 +53,7 @@ fontLoader.load(
   './fonts/helvetiker_regular.typeface.json',
   // this function will be triggered once the font is loaded
   (font) => {
-    const textGeometry = new TextGeometry('Sarlloc', {
+    const textGeometry = new TextGeometry('sarlloc', {
       font: font,
       size: 0.5,
       height: 0.2,
